@@ -13,6 +13,8 @@ import qualified Data.DAWG.Packed
 import qualified Data.HashSet
 import qualified Data.IntSet
 import qualified Data.Set
+import qualified Int.Set
+import qualified String.Set
 import           System.Directory
 import           System.Random
 
@@ -49,6 +51,7 @@ main = do
         "Insert Int (Randomized)"
         (insertInts
            [ InsertInt "Data.Set" insertSet
+           , InsertInt "Unpacked.Set" insertUnpackedIntSet
            , InsertInt "Data.HashSet" insertHashSet
            , InsertInt "Data.IntSet" insertIntSet
            ])
@@ -59,6 +62,10 @@ main = do
                "Data.Set"
                Data.Set.fromList
                Data.Set.intersection
+           , Intersection
+               "Int.Set"
+               Int.Set.fromList
+               Int.Set.intersection
            , Intersection
                "Data.HashSet"
                Data.HashSet.fromList
@@ -76,6 +83,10 @@ main = do
                Data.Set.fromList
                Data.Set.member
            , Member
+               "Int.Set"
+               Int.Set.fromList
+               Int.Set.member
+           , Member
                "Data.HashSet"
                Data.HashSet.fromList
                Data.HashSet.member
@@ -91,6 +102,10 @@ main = do
                "Data.Set"
                Data.Set.fromList
                Data.Set.member
+           , Member
+               "Int.Set"
+               Int.Set.fromList
+               Int.Set.member
            , Member
                "Data.HashSet"
                Data.HashSet.fromList
@@ -112,6 +127,10 @@ main = do
                Data.Set.fromList
                Data.Set.member
            , MemberS
+               "String.Set"
+               String.Set.fromList
+               String.Set.member
+           , MemberS
                "Data.HashSet"
                Data.HashSet.fromList
                Data.HashSet.member
@@ -127,6 +146,10 @@ main = do
                "Data.Set"
                Data.Set.fromList
                Data.Set.member
+           , MemberS
+               "String.Set"
+               String.Set.fromList
+               String.Set.member
            , MemberS
                "Data.HashSet"
                Data.HashSet.fromList
@@ -144,6 +167,7 @@ main = do
         "FromList String (Monotonic)"
         (insertSMonotonic
            [ FromListS "Data.Set" Data.Set.fromList
+           , FromListS "String.Set" String.Set.fromList
            , FromListS "Data.HashSet" Data.HashSet.fromList
            , FromListS "Data.DAWG.Packed" Data.DAWG.Packed.fromList
            ])
@@ -151,6 +175,7 @@ main = do
         "FromList String (Randomized)"
         (insertSRandomized
            [ FromListS "Data.Set" Data.Set.fromList
+           , FromListS "String.Set" String.Set.fromList
            , FromListS "Data.HashSet" Data.HashSet.fromList
            , FromListS "Data.DAWG.Packed" Data.DAWG.Packed.fromList
            ])
@@ -231,6 +256,12 @@ insertSet n0 = go n0 mempty
   where
     go 0 acc = acc
     go n !acc = go (n - 1) (Data.Set.insert n acc)
+
+insertUnpackedIntSet :: Int -> Int.Set.Set
+insertUnpackedIntSet n0 = go n0 mempty
+  where
+    go 0 acc = acc
+    go n !acc = go (n - 1) (Int.Set.insert n acc)
 
 insertHashSet :: Int -> Data.HashSet.HashSet Int
 insertHashSet n0 = go n0 mempty

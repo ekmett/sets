@@ -1,0 +1,8 @@
+allow-newer: packed-dawg:base
+  
+packages:
+  unpacked-containers/unpacked-containers.cabal
+  bench.cabal
+
+package unpacked-containers
+  optimization: True

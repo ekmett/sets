@@ -7,16 +7,26 @@ library
   build-depends: base
   default-language: Haskell2010
 
+library bench-keys
+  hs-source-dirs: keys
+  build-depends: base
+  exposed-modules: Int String
+
 test-suite space
   default-language:    Haskell2010
   type: exitcode-stdio-1.0
   ghc-options: -O2
   main-is: Space.hs
+  mixins:
+    unpacked-containers (Set as Int.Set) requires (Key as Int),
+    unpacked-containers (Set as String.Set) requires (Key as String)
   build-depends: base
+               , bench-keys
                , weigh
                , deepseq
                , containers
                , unordered-containers
+               , unpacked-containers
                , packed-dawg
                , bloomfilter
                , random
@@ -26,7 +36,11 @@ benchmark time
   type: exitcode-stdio-1.0
   ghc-options:       -Wall -O2 -rtsopts
   main-is:           Time.hs
+  mixins:
+    unpacked-containers (Set as Int.Set) requires (Key as Int),
+    unpacked-containers (Set as String.Set) requires (Key as String)
   build-depends:     base
+                   , bench-keys
                    , bytestring
                    , ghc-prim
                    , criterion
@@ -34,6 +48,7 @@ benchmark time
                    , bloomfilter
                    , containers
                    , unordered-containers
+                   , unpacked-containers
                    , packed-dawg
                    , random
                    , directory
